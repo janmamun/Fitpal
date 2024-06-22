@@ -1,0 +1,34 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Your Messages</h1>
+  <div id="messages" class="mb-4">
+    <%= render @chats %>
+  </div>
+
+  <%= form_with url: chats_path, local: true, id: 'new_message', class: "form-inline" do |form| %>
+    <%= hidden_field_tag :receiver_id, params[:receiver_id] %>
+    <%= form.text_area :message, class: "form-control mr-2" %>
+    <%= form.submit 'Send', class: "btn btn-primary" %>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const chatChannel = App.cable.subscriptions.create({ channel: "ChatChannel", chat_id: <%= params[:chat_id] %> }, {
+      received(data) {
+        const messages = document.getElementById('messages');
+        messages.insertAdjacentHTML('beforeend', data.message);
+      },
+      send_message(message, receiver_id) {
+        this.perform('send_message', { message: message, receiver_id: receiver_id });
+      }
+    });
+
+    const form = document.getElementById('new_message');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const messageField = form.querySelector('textarea');
+      chatChannel.send_message(messageField.value, form.querySelector('input[name="receiver_id"]').value);
+      messageField.value = '';
+    });
+  });
+</script>

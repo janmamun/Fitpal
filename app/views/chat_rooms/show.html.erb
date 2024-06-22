@@ -1,0 +1,14 @@
+<h1>Chat Room</h1>
+
+<div id="messages">
+  <%= render @messages %>
+</div>
+
+<%= form_with(model: [@chat_room, @chat_room.messages.build], local: true, id: 'new_message') do |f| %>
+  <div class="field">
+    <%= f.text_area :content, rows: 3, placeholder: "Type a message..." %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Send", class: "btn btn-primary" %>
+  </div>
+<% end %>
