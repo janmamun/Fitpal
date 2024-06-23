@@ -1,9 +1,31 @@
-// app/assets/stylesheets/variables.scss
+// variables.scss
 
-// $primary-color: #3498db;
-// $secondary-color: #2ecc71;
-// $text-color: #2c3e50;
-// $background-color: #ecf0f1;
-// $border-radius: 5px;
-// $padding: 1rem;
-// $margin: 1rem;
+// Add the margin variable
+$margin: 1rem;
+$padding: 1rem;
+$border-radius: 5px;
+
+// Color variables
+$background-color: #f8f9fa;
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$info-color: #17a2b8;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$text-color: #333;
+
+// Font variables
+$font-family-sans-serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+// Spacing variables
+$spacer: 1rem;
+
+// Example usage
+body {
+  color: $primary-color;
+  font-family: $font-family-sans-serif;
+}

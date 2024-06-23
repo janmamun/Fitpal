@@ -3,7 +3,6 @@ require_relative "boot"
 require "rails/all"
 require 'dotenv/load'
 
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -12,6 +11,9 @@ module Fitpal
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+
+    # Ensure the services directory is autoloaded
+    config.autoload_paths += %W(#{config.root}/app/services)
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -25,9 +27,5 @@ module Fitpal
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-    config.load_defaults 6.1
-
-    # Load environment variables
-    Dotenv::Rails.load if Rails.env.development? || Rails.env.test?
   end
 end

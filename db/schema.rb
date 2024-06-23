@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_22_183710) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_23_142227) do
   create_table "chat_rooms", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_22_183710) do
     t.boolean "read"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "chat_room_id"
+    t.index ["chat_room_id"], name: "index_chats_on_chat_room_id"
   end
 
   create_table "connections", force: :cascade do |t|
@@ -53,6 +55,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_22_183710) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "chat_room_id", null: false
+    t.integer "chat_id", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
     t.index ["chat_room_id"], name: "index_messages_on_chat_room_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
@@ -83,12 +87,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_22_183710) do
     t.index ["user_id"], name: "index_workouts_on_user_id"
   end
 
+  add_foreign_key "chats", "chat_rooms"
   add_foreign_key "chats", "users", column: "receiver_id"
   add_foreign_key "chats", "users", column: "sender_id"
   add_foreign_key "connections", "users"
   add_foreign_key "connections", "users", column: "partner_id"
   add_foreign_key "gyms", "users"
   add_foreign_key "messages", "chat_rooms"
+  add_foreign_key "messages", "chats"
   add_foreign_key "messages", "users"
   add_foreign_key "workouts", "users"
 end

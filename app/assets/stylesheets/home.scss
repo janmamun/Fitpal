@@ -1,25 +1,13 @@
-.home-container {
-  max-width: 600px !important;
-  margin: 0 auto !important;
-  padding: 10px !important;
-  background-color: #14ad37 !important;
-}
+/* app/assets/stylesheets/home.scss */
+@import 'variables';
+// .jumbotron {
+//   background-color: #e9ecef;
+//   padding: 20px;
+//   border-radius: 10px;
+//   text-align: center;
+// }
 
-.jumbotron {
-  background-color: #e9ecef !important;
-  padding: 20px !important;
-  border-radius: 10px !important;
-  text-align: center !important;
-}
-
-.search-bar {
-  margin-bottom: 20px !important;
-}
-
-.form-control {
-  margin-bottom: 10px !important;
-}
-
-.card {
-  margin-bottom: 20px !important;
-}
+// .jumbotron .display-4 {
+//   font-weight: 300;
+//   font-size: 1.5rem;
+// }

@@ -1,6 +1,6 @@
-<!-- app/views/chat_rooms/show.html.erb -->
+<!-- app/views/chats/show.html.erb -->
 <div class="container mt-5">
-  <h1 class="mb-4">Chat Room: <%= @chat_room.name %></h1>
+  <h1 class="mb-4">Chat with <%= @chat.receiver == current_user ? @chat.sender.email : @chat.receiver.email %></h1>
   <div id="messages" class="mb-4">
     <% @messages.each do |message| %>
       <div class="message">
@@ -10,7 +10,7 @@
     <% end %>
   </div>
 
-  <%= form_with(model: [@chat_room, @message], local: true, id: 'new_message', class: "form-inline") do |form| %>
+  <%= form_with(model: @message, url: chat_room_messages_path(@chat.chat_room), local: true, id: 'new_message', class: "form-inline") do |form| %>
     <%= form.hidden_field :chat_id, value: @chat.id %>
     <%= form.text_area :content, class: "form-control mr-2", placeholder: "Type your message" %>
     <%= form.submit 'Send', class: "btn btn-primary" %>

@@ -1,49 +1,92 @@
-body {
-  background-color: #f8f9fa; /* Change to your desired background color */
-  color: #333;
-  font-family: Arial, sans-serif;
-}
+/* app/assets/stylesheets/base.scss */
+@import 'variables';
+// body {
+//   background-color: #f8f9fa; // light gray background
+//   color: #333;
+//   font-family: Arial, sans-serif;
+// }
 
-.navbar {
-  margin-bottom: 20px;
-}
+// .container.home-container {
+//   background-color: white; // white background for the main container
+//   border-radius: 10px;
+//   padding: 15px;
+//   max-width: 450px;
+//   margin: 0 auto;
+// }
 
-.jumbotron {
-  background-color: #e9ecef;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-}
+// .search-bar {
+//   margin-bottom: 20px;
+// }
 
-.jumbotron .display-4 {
-  font-weight: 300;
-}
+// .search-bar .form-control {
+//   width: calc(100% - 90px);
+//   display: inline-block;
+//   margin-right: 10px;
+// }
 
-.card {
-  margin-bottom: 20px;
-  border-radius: 10px;
-}
+// .card {
+//   margin-bottom: 20px;
+//   border-radius: 10px;
+// }
 
-.card-body {
-  padding: 20px;
-}
+// .card-body {
+//   padding: 15px;
+// }
 
-h2 {
-  margin-top: 30px;
-  margin-bottom: 20px;
-}
+// ul.list-group {
+//   padding: 0;
+//   list-style: none;
+// }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
+// ul.list-group .list-group-item {
+//   padding: 10px;
+//   border: none;
+//   border-bottom: 1px solid #ddd;
+// }
 
-.form-control {
-  border-radius: 10px;
-  padding: 10px;
-}
+// ul.list-group .list-group-item:last-child {
+//   border-bottom: none;
+// }
 
-.btn-primary {
-  border-radius: 10px;
-  padding: 10px 20px;
-}
+// h5.card-title {
+//   font-size: 1.25rem;
+//   margin-bottom: 15px;
+// }
+
+// .btn {
+//   padding: 10px 20px;
+//   border-radius: 10px;
+// }
+
+// /* Media Query for Mobile Devices */
+// @media (max-width: 576px) {
+//   .navbar-brand {
+//     font-size: 1.25rem;
+//   }
+
+//   .navbar-nav .nav-link {
+//     font-size: 1rem;
+//   }
+
+//   .search-bar .form-control {
+//     width: 100%;
+//     margin-bottom: 10px;
+//   }
+
+//   .search-bar .btn {
+//     width: 100%;
+//   }
+
+//   .card-body {
+//     padding: 10px;
+//   }
+
+//   ul.list-group .list-group-item {
+//     padding: 10px 15px;
+//   }
+
+//   .btn {
+//     width: 100%;
+//     margin-bottom: 10px;
+//   }
+// }

@@ -20,6 +20,7 @@ gem 'sass-rails', '>= 6'
 gem 'execjs'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'geocoder'
+gem 'httparty'
 
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]

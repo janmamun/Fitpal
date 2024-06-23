@@ -1,9 +1,7 @@
+# config/routes.rb
 Rails.application.routes.draw do
   root 'home#index'
-  get 'profiles/show'
-  get 'profiles/edit'
-  get 'profiles/update'
-  # Devise routes for user authentication
+
   devise_for :users
 
   resources :users, only: [:show, :edit, :update]
@@ -13,10 +11,8 @@ Rails.application.routes.draw do
     end
   end
   resources :connections, only: [:index, :create, :destroy]
-  resources :chats, only: [:index, :create]
+  resources :chats, only: [:index, :create, :show]
   resources :workouts, only: [:index, :create]
-
-  # root 'gyms#index'
 
   get "up" => "rails/health#show", as: :rails_health_check
 

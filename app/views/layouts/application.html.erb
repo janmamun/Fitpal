@@ -6,14 +6,50 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
   <%= javascript_importmap_tags %>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Custom font from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+
+  <!-- Custom CSS for styling -->
+  <%= stylesheet_link_tag 'custom', media: 'all', 'data-turbo-track': 'reload' %>
 </head>
 <body>
   <%= render 'shared/navbar' %>
   <div class="container mt-5">
     <%= yield %>
   </div>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-pzjw8f+ua7Kw1TIqkQ/7RXfkhBr/ZxE5p1RNk7EM1Jh0pffwKeImL9gBtkK1kxgE" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgpsFMkdxOJDXFpEI3D93s0HgKjBTVUu3c2DqDUeVo9RjRpm19E" crossorigin="anonymous"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+  <script>
+    mapboxgl.accessToken = '<%= ENV["MAPBOX_ACCESS_TOKEN"] %>';
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      types: 'country,region,place,postcode,locality,neighborhood'
+    });
+
+    geocoder.addTo('#geocoder-container');
+
+    // Prevent form submission on Enter key press in the Geocoder input field
+    document.getElementById('geocoder').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+      }
+    });
+
+    // Handle the selection of a location from the autocomplete suggestions
+    geocoder.on('result', function(e) {
+      var searchForm = document.querySelector('form');
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'location';
+      input.value = e.result.place_name;
+      searchForm.appendChild(input);
+      searchForm.submit();
+    });
+  </script>
 </body>
 </html>
