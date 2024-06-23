@@ -1,14 +1,6 @@
+// app/assets/stylesheets/application.scss
+
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- *
  *= require_tree .
  *= require_self
  */
@@ -17,3 +9,37 @@
 @import "bootstrap/scss/bootstrap";
 
 // Your custom styles (if any) should go here
+@import "variables";
+@import "header";
+@import "navigation";
+@import "messages";
+@import "forms";
+@import "gyms";
+@import "workouts";
+@import "base";
+@import "home";
+
+.home-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.jumbotron {
+  background-color: #e9ecef;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+
+.card {
+  margin-bottom: 20px;
+}

@@ -4,8 +4,9 @@
     <%= render @chats %>
   </div>
 
-  <%= form_with url: chats_path, local: true, id: 'new_message', class: "form-inline" do |form| %>
-    <%= hidden_field_tag :receiver_id, params[:receiver_id] %>
+  <%= form_with(model: @chat, local: true, id: 'new_message', class: "form-inline") do |form| %>
+    <% receiver_id = params[:receiver_id].presence || @default_receiver_id %>
+    <%= form.hidden_field :receiver_id, value: receiver_id %>
     <%= form.text_area :message, class: "form-control mr-2" %>
     <%= form.submit 'Send', class: "btn btn-primary" %>
   <% end %>
@@ -19,7 +20,7 @@
         messages.insertAdjacentHTML('beforeend', data.message);
       },
       send_message(message, receiver_id) {
-        this.perform('send_message', { message: message, receiver_id: receiver_id });
+        this.perform('send_message', { chat: { message: message, receiver_id: receiver_id } });
       }
     });
 
@@ -27,7 +28,7 @@
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const messageField = form.querySelector('textarea');
-      chatChannel.send_message(messageField.value, form.querySelector('input[name="receiver_id"]').value);
+      chatChannel.send_message(messageField.value, form.querySelector('input[name="chat[receiver_id]"]').value);
       messageField.value = '';
     });
   });

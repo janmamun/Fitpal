@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'home#index'
   get 'profiles/show'
   get 'profiles/edit'
   get 'profiles/update'
@@ -15,7 +16,7 @@ Rails.application.routes.draw do
   resources :chats, only: [:index, :create]
   resources :workouts, only: [:index, :create]
 
-  root 'gyms#index'
+  # root 'gyms#index'
 
   get "up" => "rails/health#show", as: :rails_health_check
 

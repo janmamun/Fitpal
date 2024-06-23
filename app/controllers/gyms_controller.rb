@@ -3,28 +3,28 @@ class GymsController < ApplicationController
     @gyms = Gym.all
   end
 
-  def show
-    @gym = Gym.find(params[:id])
-  end
-
   def search
     if params[:location].present?
-      coordinates = Geocoder.coordinates(params[:location])
-      Rails.logger.debug "Coordinates for #{params[:location]}: #{coordinates}"
-
-      if coordinates.present?
-        @gyms = Gym.near(coordinates, 10) # Searching gyms within 10 miles of the coordinates
-        if @gyms.empty?
-          flash[:alert] = "No gyms found near the specified location."
+      results = Geocoder.search(params[:location])
+      Rails.logger.debug "Geocoder results: #{results.inspect}"
+      if results.present?
+        @location = results.first
+        if @location.data["features"].present?
+          coordinates = @location.data["features"].first["center"]
+          latitude, longitude = coordinates[1], coordinates[0]
+          @gyms = Gym.near([latitude, longitude], 10)
+        else
+          flash.now[:alert] = "Unable to geocode the specified location."
+          @gyms = Gym.none
         end
       else
-        flash[:alert] = "Unable to geocode the specified location."
-        @gyms = Gym.all
+        flash.now[:alert] = "Unable to geocode the specified location."
+        @gyms = Gym.none
       end
     else
-      @gyms = Gym.all
-      flash[:alert] = "Please enter a location to search."
+      @gyms = Gym.none
     end
+
     render :index
   end
 end

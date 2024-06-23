@@ -10,27 +10,23 @@ const chatChannel = consumer.subscriptions.create("ChatChannel", {
   },
 
   received(data) {
-    const messages = document.getElementById('messages')
-    messages.insertAdjacentHTML('beforeend', data.message)
+    const messages = document.getElementById('messages');
+    messages.insertAdjacentHTML('beforeend', data.message);
   },
 
-  speak(message) {
-    return this.perform('speak', { message: message });
+  send_message(message, receiver_id) {
+    this.perform('send_message', { chat: { message: message, receiver_id: receiver_id } });
   }
 });
 
-document.addEventListener('turbolinks:load', () => {
-  const form = document.getElementById('new_message')
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('new_message');
   if (form) {
-    const textarea = form.querySelector('textarea')
-
     form.addEventListener('submit', (event) => {
-      event.preventDefault()
-      const message = textarea.value
-      if (message.trim().length > 0) {
-        chatChannel.speak(message)
-        textarea.value = ''
-      }
-    })
+      event.preventDefault();
+      const messageField = form.querySelector('textarea');
+      chatChannel.send_message(messageField.value, form.querySelector('input[name="chat[receiver_id]"]').value);
+      messageField.value = '';
+    });
   }
 });

@@ -1,0 +1,40 @@
+<div class="container home-container mt-5">
+  <div class="jumbotron">
+    <h1 class="display-4">Welcome to Fitpal!</h1>
+    <p>Find workout partners, locate nearby gyms, and chat with others.</p>
+  </div>
+
+  <div class="search-bar">
+    <%= form_with(url: search_gyms_path, method: :get, local: true) do |form| %>
+      <%= form.text_field :location, placeholder: "Enter your location", class: "form-control" %>
+      <%= form.submit "Search", class: "btn btn-primary btn-block" %>
+    <% end %>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Featured Gyms</h5>
+      <ul class="list-group">
+        <% @gyms.each do |gym| %>
+          <li class="list-group-item">
+            <%= link_to gym.name, gym_path(gym), class: "text-decoration-none" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Recent Chats</h5>
+      <p>Please log in to see your recent chats.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Your Profile</h5>
+      <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary btn-block' %>
+    </div>
+  </div>
+</div>
