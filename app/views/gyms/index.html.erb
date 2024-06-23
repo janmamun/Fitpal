@@ -1,11 +1,10 @@
-<!-- app/views/gyms/index.html.erb -->
 <div class="container mt-4">
   <h1 class="mb-4">Featured Gyms</h1>
   <div id="map" style="height: 400px; width: 100%;"></div>
   <% if @gyms.present? %>
     <div class="list-group mt-4">
       <% @gyms.each do |gym| %>
-        <div class="list-group-item mb-2">
+        <div class="list-group-item mb-2" onclick="flyToGym(<%= gym.latitude %>, <%= gym.longitude %>, '<%= gym.name %>')">
           <h2 class="h5 mb-1"><%= gym.name %></h2>
           <p class="mb-1"><%= gym.address %></p>
           <% if gym.latitude && gym.longitude %>
@@ -22,21 +21,30 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', (event) => {
-    mapboxgl.accessToken = '<%= ENV["MAPBOX_ACCESS_TOKEN"] %>';
-    const map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [51.25, 25.5], // Initial center [longitude, latitude]
-      zoom: 10
-    });
+    // Initialize the Leaflet map
+    var map = L.map('map').setView([25.5, 51.25], 10);
 
+    // Set up the OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add markers for each gym and store references to the markers
+    var markers = {};
     <% @gyms.each do |gym| %>
       <% if gym.latitude && gym.longitude %>
-        new mapboxgl.Marker()
-          .setLngLat([<%= gym.longitude %>, <%= gym.latitude %>])
-          .setPopup(new mapboxgl.Popup().setText("<%= gym.name %>"))
+        var marker = L.marker([<%= gym.latitude %>, <%= gym.longitude %>])
+          .bindPopup('<%= gym.name %>')
           .addTo(map);
+        markers['<%= gym.name %>'] = marker;
       <% end %>
     <% end %>
+
+    // Function to pan to a specific gym location
+    window.flyToGym = function(lat, lng, name) {
+      map.setView([lat, lng], 14);
+      markers[name].openPopup();
+    };
   });
 </script>
