@@ -1,0 +1,10 @@
+<!-- app/views/layouts/_navigation.html.erb -->
+<nav class="navigation">
+  <ul>
+    <li><%= link_to 'Home', root_path %></li>
+    <li><%= link_to 'Gyms', gyms_path %></li>
+    <li><%= link_to 'Workouts', workouts_path %></li>
+    <li><%= link_to 'Chats', chats_path %></li>
+    <li><%= link_to 'Profile', user_path(current_user) %></li>
+  </ul>
+</nav>

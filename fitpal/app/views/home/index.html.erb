@@ -1,0 +1,56 @@
+<!-- app/views/home/index.html.erb -->
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to Fitpal!</h1>
+  <p>Find workout partners, locate nearby gyms, and chat with others.</p>
+</div>
+
+<div class="search-bar mb-4">
+  <%= form_with(url: search_gyms_path, method: :get, local: true) do |form| %>
+    <%= form.text_field :location, id: 'geocoder', placeholder: "Enter your location", class: "form-control" %>
+    <%= form.submit "Search", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Featured Gyms</h5>
+    <ul class="list-group">
+      <% @featured_gyms.each do |gym| %>
+        <li class="list-group-item">
+          <%= link_to gym.name, gym_path(gym), class: "text-decoration-none" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Recent Chats</h5>
+    <% if user_signed_in? %>
+      <% if @recent_chats.present? %>
+        <ul class="list-group">
+          <% @recent_chats.each do |chat| %>
+            <li class="list-group-item">
+              <h6>
+                Chat with <%= chat.sender == current_user ? chat.receiver.email : chat.sender.email %>
+              </h6>
+              <p><%= chat.messages.last.content %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>You have no recent chats.</p>
+      <% end %>
+    <% else %>
+      <p>Please log in to see your recent chats.</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Your Profile</h5>
+    <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+  </div>
+</div>

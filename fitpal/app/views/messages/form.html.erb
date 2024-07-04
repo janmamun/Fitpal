@@ -1,0 +1,12 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Your Messages</h1>
+  <div id="messages" class="mb-4">
+    <%= render @chats %>
+  </div>
+
+  <%= form_with(model: @chat, local: true, id: 'new_message', class: "form-inline") do |form| %>
+    <%= hidden_field_tag 'chat[receiver_id]', params[:receiver_id], id: 'chat_receiver_id' %>
+    <%= form.text_area :message, class: "form-control mr-2" %>
+    <%= form.submit 'Send', class: "btn btn-primary" %>
+  <% end %>
+</div>

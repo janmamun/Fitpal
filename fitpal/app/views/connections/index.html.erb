@@ -1,0 +1,11 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Your Connections</h1>
+  <ul class="list-group">
+    <% @connections.each do |connection| %>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <%= link_to connection.partner.username, user_path(connection.partner), class: "text-decoration-none" %>
+        <%= link_to 'Remove', connection_path(connection), method: :delete, class: "btn btn-danger" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

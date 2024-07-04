@@ -1,0 +1,81 @@
+<div class="jumbotron jumbotron-custom">
+  <h1 class="display-4">Welcome to Fitpal!</h1>
+  <p>Find workout partners, locate nearby gyms, and chat with others.</p>
+</div>
+
+<div class="search-bar mb-4">
+  <%= form_with(url: search_gyms_path, method: :get, local: true) do |form| %>
+    <%= form.text_field :location, id: 'geocoder', placeholder: "Enter your location", class: "form-control" %>
+    <%= form.submit "Search", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Nearby Gyms</h5>
+    <ul class="list-group">
+      <% if @gyms.present? %>
+        <% @gyms.each do |gym| %>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-4">
+                <% if gym.image_url.present? %>
+                  <%= image_tag gym.image_url, alt: gym.name, class: "img-fluid mb-2" %>
+                <% else %>
+                  <%= image_tag 'default_gym_image.jpg', alt: "No image available", class: "img-fluid mb-2" %>
+                <% end %>
+              </div>
+              <div class="col-md-8">
+                <h5 class="card-title"><%= gym.name %></h5>
+                <p class="card-text"><%= gym.address %></p>
+                <p class="card-text">Latitude: <%= gym.latitude %></p>
+                <p class="card-text">Longitude: <%= gym.longitude %></p>
+                <a href="https://www.google.com/maps/search/?api=1&query=<%= gym.latitude %>,<%= gym.longitude %>" class="btn btn-primary" target="_blank">View on Map</a>
+                <% if gym.instagram_url.present? %>
+                  <a href="<%= gym.instagram_url %>" class="btn btn-primary" target="_blank">Instagram</a>
+                <% elsif gym.website_url.present? %>
+                  <a href="<%= gym.website_url %>" class="btn btn-primary" target="_blank">Website</a>
+                <% else %>
+                  <p>No website or Instagram available</p>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="list-group-item">No gyms found nearby.</li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Recent Chats</h5>
+    <% if user_signed_in? %>
+      <% if @recent_chats.present? %>
+        <ul class="list-group">
+          <% @recent_chats.each do |chat| %>
+            <li class="list-group-item">
+              <h6>
+                Chat with <%= chat.sender == current_user ? chat.receiver.email : chat.sender.email %>
+              </h6>
+              <p><%= chat.messages.last&.content || "No messages yet" %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>You have no recent chats.</p>
+      <% end %>
+    <% else %>
+      <p>Please log in to see your recent chats.</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Your Profile</h5>
+    <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+  </div>
+</div>

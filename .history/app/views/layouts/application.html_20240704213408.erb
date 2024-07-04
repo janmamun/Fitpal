@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fitpal</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+  <%= javascript_importmap_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Custom font from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+
+  <!-- Custom CSS for styling -->
+  <%= stylesheet_link_tag 'custom', media: 'all', 'data-turbo-track': 'reload' %>
+
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Google Places API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&libraries=places"></script>
+</head>
+<body>
+  <%= render 'shared/navbar' %>
+  <div class="container mt-5">
+    <%= yield %>
+  </div>
+
+  <!-- Leaflet.js JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <% if defined?(@gyms) %>
+    <%= render 'shared/map_script' %>
+  <% end %>
+  <!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

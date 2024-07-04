@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fitpal</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload' %>
+  <%= javascript_importmap_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Custom font from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+
+  <!-- Custom CSS for styling -->
+  <%= stylesheet_link_tag 'custom', media: 'all', 'data-turbo-track': 'reload' %>
+
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+  <%= render 'shared/navbar' %>
+  <div class="container mt-5">
+    <%= yield %>
+  </div>
+
+  <!-- Leaflet.js JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      // Initialize the Leaflet map
+      var map = L.map('map').setView([25.5, 51.25], 10);
+
+      // Set up the OpenStreetMap tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Add markers for each gym
+      <% @gyms.each do |gym| %>
+        <% if gym.latitude && gym.longitude %>
+          L.marker([<%= gym.latitude %>, <%= gym.longitude %>])
+            .bindPopup('<%= gym.name %>')
+            .addTo(map);
+        <% end %>
+      <% end %>
+    });
+  </script>
+</body>
+</html>

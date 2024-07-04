@@ -1,0 +1,23 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var mapContainer = document.getElementById('map');
+    if (mapContainer) {
+      var map = L.map('map').setView([51.505, -0.09], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+      }).addTo(map);
+
+      var gyms = <%= raw gyms.to_json %>;
+
+      gyms.forEach(function(gym) {
+        if (gym.latitude && gym.longitude) {
+          L.marker([gym.latitude, gym.longitude]).addTo(map)
+            .bindPopup(`<b>${gym.name}</b><br>${gym.address}`);
+        }
+      });
+    } else {
+      console.error('Map container not found');
+    }
+  });
+</script>

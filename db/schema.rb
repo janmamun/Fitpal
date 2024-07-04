@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_23_142227) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_03_073448) do
   create_table "chat_rooms", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -46,6 +46,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_142227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.string "image_url"
+    t.string "instagram_url"
+    t.string "website_url"
     t.index ["user_id"], name: "index_gyms_on_user_id"
   end
 
@@ -73,6 +76,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_23_142227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.string "avatar"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
