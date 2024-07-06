@@ -1,0 +1,244 @@
+<div class="jumbotron jumbotron-custom">
+  <h1 class="display-4">Welcome to Fitpal!</h1>
+  <p>Find workout partners, locate nearby gyms, and chat with others.</p>
+</div>
+
+<div class="search-bar mb-4">
+  <%= form_with(url: search_gyms_path, method: :get, local: true) do |form| %>
+    <%= form.text_field :location, id: 'geocoder', placeholder: "Enter your location", class: "form-control" %>
+    <%= form.submit "Search", class: "btn btn-primary mt-2" %>
+  <% end %>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Nearby Gyms</h5>
+    <ul class="list-group">
+      <% if @gyms.present? %>
+        <% @gyms.each do |gym| %>
+          <li class="list-group-item">
+            <div class="row"><!DOCTYPE html>
+<html>
+<head>
+  <title>Fitpal</title>
+  <meta name="csrf-param" content="authenticity_token" />
+  <meta name="csrf-token" content="_zM3-dzYg9PhZW-1avw1MJ8LcMk_A5D2Crticqrv2xp_6l327UsDE5TeoS0UFH_LBOENypyyJUuhMWMJ-UOiqw" />
+
+  <!-- Custom font from Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+
+  <!-- Application CSS -->
+  <link rel="stylesheet" href="/assets/application-2fa2016d359c269bb7eead5b1969648e493a9436604ef188708c14085e121277.css" media="all" data-turbo-track="reload" />
+
+  <!-- Custom CSS for styling -->
+  <link rel="stylesheet" href="/assets/custom-3ff224238c1b7045ac7ab92b51a3ed79308023a0d3d3b517dea925bf6c671060.css" media="all" data-turbo-track="reload" />
+
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+  <!-- Google Places API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&libraries=places"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta2/js/bootstrap.min.js"></script>
+
+  <!-- Custom Styles -->
+  <style>
+    .jumbotron {
+      background-image: url('https://plus.unsplash.com/premium_photo-1661598940278-70e809028cc6?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDV8fHdvcmtpbmclMjBvdXQlMjB0b2dldGhlcnxlbnwwfHwwfHx8MA%3D%3D') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: white; /* Ensures text is readable over the background image */
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="jumbotron jumbotron-custom">
+      <h1 class="display-4">Welcome to Fitpal!</h1>
+      <p>Find workout partners, locate nearby gyms, and chat with others.</p>
+    </div>
+
+    <div class="search-bar mb-4">
+      <%= form_with(url: search_gyms_path, method: :get, local: true) do |form| %>
+        <%= form.text_field :location, id: 'geocoder', placeholder: "Enter your location", class: "form-control" %>
+        <%= form.submit "Search", class: "btn btn-primary mt-2" %>
+      <% end %>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Nearby Gyms</h5>
+        <ul class="list-group">
+          <% if @gyms.present? %>
+            <% @gyms.each do |gym| %>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-md-4">
+                    <% if gym.image_url.present? %>
+                      <%= image_tag gym.image_url, alt: gym.name, class: "img-fluid mb-2" %>
+                    <% else %>
+                      <%= image_tag 'default_gym_image.jpg', alt: "No image available", class: "img-fluid mb-2" %>
+                    <% end %>
+                  </div>
+                  <div class="col-md-8">
+                    <h5 class="card-title"><%= gym.name %></h5>
+                    <p class="card-text"><%= gym.address %></p>
+                    <p class="card-text">Latitude: <%= gym.latitude %></p>
+                    <p class="card-text">Longitude: <%= gym.longitude %></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=<%= gym.latitude %>,<%= gym.longitude %>" class="btn btn-primary" target="_blank">View on Map</a>
+                    <% if gym.instagram_url.present? %>
+                      <a href="<%= gym.instagram_url %>" class="btn btn-primary" target="_blank">Instagram</a>
+                    <% elsif gym.website_url.present? %>
+                      <a href="<%= gym.website_url %>" class="btn btn-primary" target="_blank">Website</a>
+                    <% else %>
+                      <p>No website or Instagram available</p>
+                    <% end %>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          <% else %>
+            <li class="list-group-item">No gyms found nearby.</li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Recent Chats</h5>
+        <% if user_signed_in? %>
+          <% if @recent_chats.present? %>
+            <ul class="list-group">
+              <% @recent_chats.each do |chat| %>
+                <li class="list-group-item">
+                  <h6>
+                    Chat with <%= chat.sender == current_user ? chat.receiver.email : chat.sender.email %>
+                  </h6>
+                  <p><%= chat.messages.last&.content || "No messages yet" %></p>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p>You have no recent chats.</p>
+          <% end %>
+        <% else %>
+          <p>Please log in to see your recent chats.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Your Profile</h5>
+        <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+
+    <div id="map" style="height: 500px; margin-bottom: 20px;"></div>
+  </div>
+
+  <!-- Leaflet.js JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      var mapContainer = document.getElementById('map');
+      if (mapContainer && !mapContainer._leaflet_id) { // Check if the map is already initialized
+        // Initialize the Leaflet map
+        var map = L.map('map').setView([25.5, 51.25], 10);
+
+        // Set up the OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add markers for each gym
+        <% if @gyms.present? %>
+          <% @gyms.each do |gym| %>
+            <% if gym.latitude && gym.longitude %>
+              L.marker([<%= gym.latitude %>, <%= gym.longitude %>])
+                .bindPopup('<%= gym.name %>')
+                .addTo(map);
+            <% end %>
+          <% end %>
+        <% end %>
+      } else {
+        console.error('Map container not found or already initialized');
+      }
+    });
+  </script>
+</body>
+</html>
+
+              <div class="col-md-4">
+                <% if gym.image_url.present? %>
+                  <%= image_tag gym.image_url, alt: gym.name, class: "img-fluid mb-2" %>
+                <% else %>
+                  <%= image_tag 'default_gym_image.jpg', alt: "No image available", class: "img-fluid mb-2" %>
+                <% end %>
+              </div>
+              <div class="col-md-8">
+                <h5 class="card-title"><%= gym.name %></h5>
+                <p class="card-text"><%= gym.address %></p>
+                <p class="card-text">Latitude: <%= gym.latitude %></p>
+                <p class="card-text">Longitude: <%= gym.longitude %></p>
+                <a href="https://www.google.com/maps/search/?api=1&query=<%= gym.latitude %>,<%= gym.longitude %>" class="btn btn-primary" target="_blank">View on Map</a>
+                <% if gym.instagram_url.present? %>
+                  <a href="<%= gym.instagram_url %>" class="btn btn-primary" target="_blank">Instagram</a>
+                <% elsif gym.website_url.present? %>
+                  <a href="<%= gym.website_url %>" class="btn btn-primary" target="_blank">Website</a>
+                <% else %>
+                  <p>No website or Instagram available</p>
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      <% else %>
+        <li class="list-group-item">No gyms found nearby.</li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Recent Chats</h5>
+    <% if user_signed_in? %>
+      <% if @recent_chats.present? %>
+        <ul class="list-group">
+          <% @recent_chats.each do |chat| %>
+            <li class="list-group-item">
+              <h6>
+                Chat with <%= chat.sender == current_user ? chat.receiver.email : chat.sender.email %>
+              </h6>
+              <p><%= chat.messages.last&.content || "No messages yet" %></p>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>You have no recent chats.</p>
+      <% end %>
+    <% else %>
+      <p>Please log in to see your recent chats.</p>
+    <% end %>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Your Profile</h5>
+    <%= link_to 'Edit Profile', edit_user_registration_path, class: 'btn btn-primary' %>
+  </div>
+</div>
+
+<div id="map" style="height: 500px; margin-bottom: 20px;"></div>
