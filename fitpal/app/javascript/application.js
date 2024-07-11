@@ -3,9 +3,7 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "bootstrap"
 import "@popperjs/core"
-import Noty from 'noty';
-
-window.Noty = Noty;
 import "./channels"
 // or if you want to specifically import the chat_channel
 import "channels/chat_channel"
+import "./autocomplete"

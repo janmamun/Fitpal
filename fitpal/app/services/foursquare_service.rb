@@ -1,19 +1,25 @@
 # app/services/foursquare_service.rb
 class FoursquareService
   include HTTParty
-  base_uri 'https://api.foursquare.com/v3'
+  base_uri 'https://api.foursquare.com/v3/places'
 
   def initialize
+    api_key = Rails.application.credentials.dig(:foursquare, :api_key)
+    Rails.logger.debug "Foursquare API Key: #{api_key}"
     @headers = {
-      "Accept" => "application/json",
-      "Authorization" => ENV['FOURSQUARE_API_KEY']
+      "Authorization" => "Bearer #{api_key}"
     }
   end
 
   def search_gyms(location)
-    options = { headers: @headers, query: { query: 'gym', near: location, limit: 10 } }
-    response = self.class.get('/places/search', options)
-    Rails.logger.debug "Foursquare response: #{response.body}"
-    response
+    options = {
+      query: {
+        query: 'gym',
+        near: location,
+        radius: 10000
+      },
+      headers: @headers
+    }
+    self.class.get('/search', options)
   end
 end
