@@ -1,16 +1,30 @@
 <div class="container mt-4">
   <h1 class="mb-4">Featured Gyms</h1>
   <div id="map" style="height: 400px; width: 100%;"></div>
+
   <% if @gyms.present? %>
     <div class="list-group mt-4">
       <% @gyms.each do |gym| %>
-        <div class="list-group-item mb-2" onclick="flyToGym(<%= gym.latitude %>, <%= gym.longitude %>, '<%= gym.name %>')">
-          <h2 class="h5 mb-1"><%= gym.name %></h2>
+        <div class="list-group-item mb-2">
+          <!-- Gym Image with error handling for broken URLs -->
+          <img src="<%= gym.image_url || 'https://via.placeholder.com/100' %>"
+               alt="<%= gym.name %>" class="img-thumbnail mb-2">
+
+          <!-- Gym Name clickable to the website or Google search -->
+          <h2 class="h5 mb-1">
+            <a href="<%= gym.website_url.present? ? gym.website_url : "https://www.bing.com/search?q=#{gym.name}" %>" target="_blank">
+              <%= gym.name %>
+            </a>
+
+          </h2>
+
+          <!-- Gym Address -->
           <p class="mb-1"><%= gym.address %></p>
-          <% if gym.latitude && gym.longitude %>
-            <p class="mb-0">Latitude: <%= gym.latitude %></p>
-            <p class="mb-0">Longitude: <%= gym.longitude %></p>
-          <% end %>
+
+          <!-- Clicking on the card flies to the gym's location on the map -->
+          <button class="btn btn-primary" onclick="flyToGym(<%= gym.latitude %>, <%= gym.longitude %>, '<%= gym.name %>')">
+            Show on Map
+          </button>
         </div>
       <% end %>
     </div>
@@ -22,7 +36,7 @@
 <script>
   document.addEventListener('DOMContentLoaded', (event) => {
     // Initialize the Leaflet map
-    var map = L.map('map').setView([25.5, 51.25], 10);
+    var map = L.map('map').setView([25.5, 51.25], 10); // Default view
 
     // Set up the OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -46,5 +60,19 @@
       map.setView([lat, lng], 14);
       markers[name].openPopup();
     };
+
+    // Image error handling to replace broken images
+    const imgElements = document.querySelectorAll('img');
+    imgElements.forEach(img => {
+      img.onerror = function() {
+        this.src = 'https://via.placeholder.com/100';
+      };
+    });
+
+    // Center the map based on markers (if more than one gym)
+    if (<%= @gyms.count %> > 1) {
+      var group = new L.featureGroup(Object.values(markers));
+      map.fitBounds(group.getBounds());
+    }
   });
 </script>
